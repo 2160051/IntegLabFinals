@@ -3,9 +3,27 @@ import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 
-public class Server implements ArithmeticFunction{
+public class Server implements Ticket{
 
-	//put methods here
+
+	public String getName(){
+
+	}
+	public int getNumberSold(){
+
+	}
+	public int getNumberAvailable(){
+
+	}
+	public void buyTicket(){
+
+	}
+	public void returnTicket(){
+
+	}
+	public String getNotification(){
+
+	}
 
 	    public static void main(String[] args){
 	    	try{
