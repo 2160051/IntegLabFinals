@@ -7,21 +7,26 @@ public class Server implements Ticket{
 
 
 	public String getName(){
+		return name;
 
 	}
 	public int getNumberSold(){
+		return numberSold;
 
 	}
 	public int getNumberAvailable(){
+		return numberAvailbale;
 
 	}
 	public void buyTicket(){
+		
 
 	}
 	public void returnTicket(){
 
 	}
 	public String getNotification(){
+		return notification;
 
 	}
 
