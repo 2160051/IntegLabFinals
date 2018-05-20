@@ -27,13 +27,43 @@ public class Server implements Ticket{
 		} 
 	}
 
+	public String logIn(String username, String password){
+		try{
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ticketing_system?user=root&password=");
+			String query_login = "SELECT username, password FROM customer WHERE username = ? AND password = ?";
+            PreparedStatement ps = con.prepareStatement(query_login);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+            
+            while(rs.next()){
+            	return "Customer";
+            }
+            
+            query_login = "SELECT handlerusername, handlerpassword FROM event_handler WHERE handlerusername = ? AND handlerpassword = ?";
+            ps = con.prepareStatement(query_login);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            rs = ps.executeQuery();
+            
+            while(rs.next()){
+            	return "Event Handler";
+            }
+            
+            return "null";
+		}catch(Exception sqe){
+			sqe.printStackTrace();
+		} 
+			return "null";
+	}
+
 	public String getEvent(){
             try{
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ticketing_system?user=root&password=");
                 Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_UPDATABLE);
-                ResultSet rs = stmt.executeQuery("Select * FROM event where status = 'In-Progress' order by eventname");
-                rs = stmt.executeQuery("Select * FROM event where status = 'In-Progress' order by eventname");
+                ResultSet rs = stmt.executeQuery("Select * FROM event where status = 'In-Progress' order by eventid");
+                rs = stmt.executeQuery("Select * FROM event where status = 'In-Progress' order by eventid");
                 rs.beforeFirst();
         		String event = "";
         	while (rs.next()) {
@@ -185,7 +215,7 @@ public class Server implements Ticket{
 		eventid += 1;
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ticketing_system?user=root&password=");
                 PreparedStatement psi; 
-                String stIns = "INSERT INTO event(eventname, totalTickets, soldTickets, description, eventDate, status, price) VALUES (?,?,?,?,?,?)";
+                String stIns = "INSERT INTO event(eventname, totalTickets, soldTickets, description, eventDate, status, price) VALUES (?,?,?,?,?,?,?)";
                 psi = con.prepareStatement(stIns);
 
                 psi.setString(1, name);
@@ -193,8 +223,8 @@ public class Server implements Ticket{
                 psi.setInt(3, 0);
                 psi.setString(4, description);
                 psi.setString(5, eventDate);
-                psi.setString(7, "In-Progress");
-                psi.setDouble(6, price);
+                psi.setString(6, "In-Progress");
+                psi.setDouble(7, price);
                 psi.executeUpdate();
             }catch(Exception sqe){
 			sqe.printStackTrace();

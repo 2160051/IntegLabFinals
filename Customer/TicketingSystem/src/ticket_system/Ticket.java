@@ -12,6 +12,7 @@ public interface Ticket extends Remote{
 	public String eventDetail(int eventToSee) throws RemoteException;
 	public double getPrice(int eventid) throws RemoteException;
 	public void registerCustomer(String name, String address, String email, String username, String password) throws RemoteException;
+	public boolean logIn(String username, String password) throws RemoteException;
 	//public String getNotification(String eventname) throws RemoteException;
 	
 	public void addEvent(String name, int totalTickets, String description, String eventDate, double price) throws RemoteException;

@@ -76,13 +76,15 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel3.setText("Trend Moira");
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel3.setText("BoxOfficeHits.com");
 
         jButton2.setText("Not yet a member?");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
+                new Register().setVisible(true);
+                dispose();
             }
         });
 
@@ -154,20 +156,24 @@ public class Login extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        input_user = jTextField1.getText();
-        input_pass = jTextField2.getText();
         try{
             Class.forName("com.mysql.jdbc.Driver");
             String hostName = "127.0.0.1";
         	Registry registry = LocateRegistry.getRegistry(hostName);
         	Ticket stub = (Ticket)registry.lookup("ticket");
         	System.out.println("connection done");
-            boolean logInValue = stub.logIn(input_user, input_pass);
+        	String username = jTextField1.getText();
+        	String password = jTextField2.getText();
+            String logInValue = stub.logIn(username, password);
             
-            if(logInValue){
+            if(logInValue.equals("Customer")){
                 //Redirect to Home Page
-            	JOptionPane.showMessageDialog(null, "Welcome " + input_user);
-            }else {
+            	JOptionPane.showMessageDialog(null, "Welcome " + username);
+            	new Events().setVisible(true);
+            	dispose();
+            }else if(logInValue.equals("Event Handler")){
+            	JOptionPane.showMessageDialog(null, "Welcome " + username);
+            }else if(logInValue.equals("null")){
             	JOptionPane.showMessageDialog(null, "Wrong username or password");
             }
             /*while(rs.next()){

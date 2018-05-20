@@ -97,6 +97,8 @@ public class Register extends javax.swing.JFrame {
         logIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 logInActionPerformed(evt);
+                new Login().setVisible(true);
+                dispose();
             }
         });
 
@@ -201,7 +203,7 @@ public class Register extends javax.swing.JFrame {
         	Ticket stub = (Ticket)registry.lookup("ticket");
         	System.out.println("connection done");
         	
-        	stub.registerCustomer(name, address, email, username, password);
+        	stub.registerCustomer(username, password, name, address, email);
         				
             JOptionPane.showMessageDialog(this, "Data Inserted Successfully..");
         }catch(Exception e){

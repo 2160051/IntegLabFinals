@@ -124,6 +124,8 @@ public class Events extends javax.swing.JFrame {
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
+                new Login().setVisible(true);
+                dispose();
             }
         });
 
@@ -173,6 +175,7 @@ public class Events extends javax.swing.JFrame {
         // TODO add your handling code here:
         int eventToSee = Integer.parseInt(jTextField1.getText());
         new EventsPage(eventToSee).setVisible(true);
+        dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField1MouseClicked

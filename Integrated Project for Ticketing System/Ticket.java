@@ -13,7 +13,7 @@ public interface Ticket extends Remote{
 	public double getPrice(int eventid) throws RemoteException;
 	public void registerCustomer(String name, String address, String email, String username, String password) throws RemoteException;
 	//public String getNotification(String eventname) throws RemoteException;
-	
+	public String logIn(String username, String password) throws RemoteException;
 	public void addEvent(String name, int totalTickets, String description, String eventDate, double price) throws RemoteException;
 	//public void setNotification(String notif) throws RemoteException;
 }
