@@ -3,14 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package customer;
+
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-
+import java.rmi.RemoteException;
+import java.rmi.registry.Registry;
+import java.rmi.registry.LocateRegistry;
 /**
  *
  * @author s422
@@ -34,29 +36,20 @@ public class EventsPage extends javax.swing.JFrame {
     void showPage(){
         try{
             Class.forName("com.mysql.jdbc.Driver");
-
+			String hostName = "127.0.0.1";
+        	Registry registry = LocateRegistry.getRegistry(hostName);
+        	Ticket stub = (Ticket)registry.lookup("ticket");
             String conStr = "jdbc:mysql://localhost:3306/ticketing_system?user=root&password=";
             Connection con = DriverManager.getConnection(conStr);
             System.out.println("connection done");
             
-            String stSel = "SELECT * FROM event WHERE eventid = ?";
-            PreparedStatement ps = con.prepareStatement(stSel);
-            ps.setInt(1, eventToSee); 
-            ResultSet rs = ps.executeQuery();
-        
-            rs.first();
-            int eventid = rs.getInt(1);
-            String eventname = rs.getString(2);
-            int leftTicks = rs.getInt(3) - rs.getInt(4);
-            String desc = rs.getString(5);
-            String date = rs.getString(6);
-            double price = rs.getDouble(8);
-            
-            jLabel1.setText(eventname);
-            jLabel12.setText(date);
-            jLabel7.setText(desc);
-            jLabel9.setText(Double.toString(price));
-            jLabel10.setText(Integer.toString(leftTicks));
+            String eventDetails = stub.eventDetail(eventToSee);
+            String[] eventDeet = eventDetails.split("-");           
+            jLabel1.setText(eventDeet[0]);
+            jLabel12.setText(eventDeet[1]);
+            jLabel7.setText(eventDeet[2]);
+            jLabel9.setText(eventDeet[3]);
+            jLabel10.setText(eventDeet[4]);
             
         }catch(Exception e){
            e.printStackTrace();

@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package customer;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.rmi.RemoteException;
+import java.rmi.registry.Registry;
+import java.rmi.registry.LocateRegistry;
 
 /**
  *
@@ -169,19 +171,11 @@ public class Buy extends javax.swing.JFrame {
         // TODO add your handling code here:
         try{
             Class.forName("com.mysql.jdbc.Driver");
-
-            String conStr = "jdbc:mysql://localhost:3306/ticketing_system?user=root&password=";
-            Connection con = DriverManager.getConnection(conStr);
-            System.out.println("connection done");
-            
-            String stSel = "SELECT * FROM event WHERE eventid = ?";
-            PreparedStatement ps = con.prepareStatement(stSel);
-            ps.setInt(1, eventNum); 
-            ResultSet rs = ps.executeQuery();
-        
-            rs.first();
-            double price = rs.getDouble(8);
+			String hostName = "127.0.0.1";
+        	Registry registry = LocateRegistry.getRegistry(hostName);
+        	Ticket stub = (Ticket)registry.lookup("ticket");
             int quan = Integer.parseInt(jTextField1.getText());
+            double price = stub.getPrice(eventNum);
             double totalPrc = price * quan; 
             jLabel10.setText(Double.toString(totalPrc));
             
@@ -199,25 +193,10 @@ public class Buy extends javax.swing.JFrame {
         int quantity = Integer.parseInt(jTextField1.getText());
         try{
             Class.forName("com.mysql.jdbc.Driver");
-
-            String conStr = "jdbc:mysql://localhost:3306/ticketing_system?user=root&password=";
-            Connection con = DriverManager.getConnection(conStr);
-            System.out.println("connection done");
-            
-            String stSel = "SELECT * FROM event WHERE eventid = ?";
-            PreparedStatement ps = con.prepareStatement(stSel);
-            ps.setInt(1, eventNum); 
-            ResultSet rs = ps.executeQuery();
-        
-            rs.first();
-            int sold = rs.getInt(4);
-            
-            int newNumb = sold + quantity;
-            String crSel = "UPDATE event SET soldTickets = ? WHERE eventid = ?";
-            PreparedStatement pss = con.prepareStatement(crSel);
-            pss.setInt(1, newNumb);
-            pss.setInt(2, eventNum);
-            pss.executeUpdate();
+			String hostName = "127.0.0.1";
+        	Registry registry = LocateRegistry.getRegistry(hostName);
+        	Ticket stub = (Ticket)registry.lookup("ticket");
+        	stub.buyTicket(eventNum, quantity);
             
             jTextField2.setText("Purchase Successful.");
             

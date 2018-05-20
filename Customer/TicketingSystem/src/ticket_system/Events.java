@@ -3,13 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package customer;
+
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.table.DefaultTableModel;
+import java.rmi.RemoteException;
+import java.rmi.registry.Registry;
+import java.rmi.registry.LocateRegistry;
+import java.util.*;
 
 /**
  *
@@ -22,6 +26,7 @@ public class Events extends javax.swing.JFrame {
     /**
      * Creates new form Events
      */
+    
     public Events() {
         initComponents();
         showAll();
@@ -29,25 +34,21 @@ public class Events extends javax.swing.JFrame {
     
     void showAll(){
     try{
-            Class.forName("com.mysql.jdbc.Driver");
-
-            String conStr = "jdbc:mysql://localhost:3306/ticketing_system?user=root&password=";
-            Connection con = DriverManager.getConnection(conStr);
-            System.out.println("connection done");
-            
-            String stSel = "SELECT * FROM event";
+        String hostName = "127.0.0.1";
+        Registry registry = LocateRegistry.getRegistry(hostName);
+        Ticket stub = (Ticket)registry.lookup("ticket");
+        System.out.println("connection done"); 
         
-            Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            ResultSet rs = stmt.executeQuery(stSel);
+        DefaultTableModel model = new DefaultTableModel(new String[]{"Event ID", "Event Name"}, 0);
+        String events = stub.getEvent();
+        String[] eachEvent = events.split(",");
         
-            DefaultTableModel model = new DefaultTableModel(new String[]{"Event ID", "Event Name"}, 0);
-        
-            rs.beforeFirst();
-            while (rs.next()) {
-                int eventid = rs.getInt(1);
-                String eventname = rs.getString(2);
-                model.addRow(new Object[]{eventid, eventname});
-            }   
+        for(int ctr = 0; ctr < eachEvent.length; ctr++){
+            String[] eventSplit = eachEvent[ctr].split("-");
+            for(int ct = 0; ct < eventSplit.length-1; ct++){
+            	model.addRow(new Object[]{eventSplit[0], eventSplit[1]});
+        	}
+        }  
             jTable2.setModel(model);
        }catch(Exception e){
            e.printStackTrace();
@@ -210,7 +211,6 @@ public class Events extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Events.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
