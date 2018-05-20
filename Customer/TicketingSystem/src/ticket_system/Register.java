@@ -201,7 +201,7 @@ public class Register extends javax.swing.JFrame {
         	Ticket stub = (Ticket)registry.lookup("ticket");
         	System.out.println("connection done");
         	
-        	stub.registerCustomer(name,username, password, address, email);
+        	stub.registerCustomer(username, password, name, address, email);
         				
             JOptionPane.showMessageDialog(this, "Data Inserted Successfully..");
         }catch(Exception e){
