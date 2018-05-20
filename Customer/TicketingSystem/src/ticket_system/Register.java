@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package registration;
 
 /**
  *
@@ -15,12 +14,12 @@ import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 
-public class register extends javax.swing.JFrame {
+public class Register extends javax.swing.JFrame {
 
     /**
-     * Creates new form register
+     * Creates new form Register
      */
-    public register() {
+    public Register() {
         initComponents();
     }
 
@@ -45,7 +44,7 @@ public class register extends javax.swing.JFrame {
         jTextFieldEmail = new javax.swing.JTextField();
         jTextFieldPassword = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        register = new javax.swing.JButton();
+        Register = new javax.swing.JButton();
         logIn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -85,9 +84,9 @@ public class register extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("United Kingdom", 0, 14)); // NOI18N
         jLabel6.setText("Registration Form");
 
-        register.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        register.setText("Register");
-        register.addActionListener(new java.awt.event.ActionListener() {
+        Register.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        Register.setText("Register");
+        Register.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 registerActionPerformed(evt);
             }
@@ -115,7 +114,7 @@ public class register extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(logIn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(register))
+                        .addComponent(Register))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -166,7 +165,7 @@ public class register extends javax.swing.JFrame {
                     .addComponent(jTextFieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(register)
+                    .addComponent(Register)
                     .addComponent(logIn))
                 .addContainerGap())
         );
@@ -202,10 +201,10 @@ public class register extends javax.swing.JFrame {
         	Ticket stub = (Ticket)registry.lookup("ticket");
         	System.out.println("connection done");
         	
-        	stub.registerCustomer(name, address, email, username, password)
+        	stub.registerCustomer(name, address, email, username, password);
         				
             JOptionPane.showMessageDialog(this, "Data Inserted Successfully..");
-        }catch(ClassNotFoundException | SQLException e){
+        }catch(Exception e){
             e.printStackTrace();
         }
     }//GEN-LAST:event_registerActionPerformed
@@ -235,20 +234,20 @@ public class register extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new register().setVisible(true);
+                new Register().setVisible(true);
             }
         });
     }
@@ -267,6 +266,6 @@ public class register extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldPassword;
     private javax.swing.JTextField jTextFieldUsername;
     private javax.swing.JButton logIn;
-    private javax.swing.JButton register;
+    private javax.swing.JButton Register;
     // End of variables declaration//GEN-END:variables
 }
