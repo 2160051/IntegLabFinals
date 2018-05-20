@@ -169,6 +169,7 @@ public class Login extends javax.swing.JFrame {
             if(logInValue.equals("Customer")){
                 //Redirect to Home Page
             	JOptionPane.showMessageDialog(null, "Welcome " + username);
+            	stub.setUser(username);
             	new Events().setVisible(true);
             	dispose();
             }else if(logInValue.equals("Event Handler")){

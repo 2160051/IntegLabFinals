@@ -196,7 +196,8 @@ public class Buy extends javax.swing.JFrame {
 			String hostName = "127.0.0.1";
         	Registry registry = LocateRegistry.getRegistry(hostName);
         	Ticket stub = (Ticket)registry.lookup("ticket");
-        	stub.buyTicket(eventNum, quantity);
+        	String name = stub.getEventName();
+        	stub.buyTicket(name, eventNum, quantity);
             
             jTextField2.setText("Purchase Successful.");
             

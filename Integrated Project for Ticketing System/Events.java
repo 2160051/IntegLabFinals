@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 import javax.swing.table.DefaultTableModel;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
@@ -174,8 +175,28 @@ public class Events extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         int eventToSee = Integer.parseInt(jTextField1.getText());
-        new EventsPage(eventToSee).setVisible(true);
-        dispose();
+		try{
+			String hostName = "127.0.0.1";
+        	Registry registry = LocateRegistry.getRegistry(hostName);
+        	Ticket stub = (Ticket)registry.lookup("ticket");
+        	String conStr = "jdbc:mysql://localhost:3306/ticketing_system?user=root&password=";
+            Connection con = DriverManager.getConnection(conStr);
+        	System.out.println("connection done"); 
+        		
+ 			String stSel = "SELECT * FROM event WHERE eventid = ?";
+            PreparedStatement ps = con.prepareStatement(stSel);
+            ps.setInt(1, eventToSee); 
+            ResultSet rs = ps.executeQuery();
+        
+            rs.first();
+            String name = rs.getString("eventname");
+            stub.setEvent(name);
+ 			
+        	new EventsPage(eventToSee).setVisible(true);
+        	dispose();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField1MouseClicked

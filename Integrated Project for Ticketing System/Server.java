@@ -8,7 +8,8 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class Server implements Ticket{
 	int eventid = 2;
-
+	String usersname;
+	String eventsname;
 	public void registerCustomer(String name, String address, String email, String username, String password){
 		try{
         	Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ticketing_system?user=root&password=");
@@ -145,11 +146,12 @@ public class Server implements Ticket{
 		return 0;
 	}
 	
-	public void buyTicket(int eventname, int quantity){
+	public void buyTicket(String event, int eventname, int quantity){
 		try{
 			String conStr = "jdbc:mysql://localhost:3306/ticketing_system?user=root&password=";
             Connection con = DriverManager.getConnection(conStr);
             System.out.println("connection done");
+            String user = getUser();
             
             String stSel = "SELECT * FROM event WHERE eventid = ?";
             PreparedStatement ps = con.prepareStatement(stSel);
@@ -159,14 +161,54 @@ public class Server implements Ticket{
             rs.first();
             int sold = rs.getInt(4);
             int newNumb = sold + quantity;
+            
+            String stSel2 = "SELECT * FROM customer WHERE username = ?";
+            ps = con.prepareStatement(stSel2);
+            ps.setString(1, user); 
+            rs = ps.executeQuery();
+            rs.first();
+            int id = rs.getInt("customerid");
+            
             String crSel = "UPDATE event SET soldTickets = ? WHERE eventid = ?";
             PreparedStatement pss = con.prepareStatement(crSel);
             pss.setInt(1, newNumb);
             pss.setInt(2, eventname);
+            addEventCustomer(id, eventname, event);
             pss.executeUpdate();
 		}catch(Exception sqe){
 			sqe.printStackTrace();
 		}
+	}
+	
+	public void addEventCustomer(int id, int eventname, String event){
+		try{
+			String conStr = "jdbc:mysql://localhost:3306/ticketing_system?user=root&password=";
+            Connection con = DriverManager.getConnection(conStr);
+			String crSel2 = "INSERT INTO event_customers(customerid, eventid, eventname) VALUES (?,?,?)";
+            PreparedStatement pss = con.prepareStatement(crSel2);
+            pss.setInt(1, id);
+            pss.setInt(2, eventname);
+            pss.setString(3, event);
+            pss.executeUpdate();
+		}catch(Exception sqe){
+			sqe.printStackTrace();
+		}
+	}
+	
+	public void setUser(String username){
+		this.usersname = username;
+	}
+	
+	public String getUser(){
+		return usersname;
+	}
+	
+	public void setEvent(String event){
+		this.eventsname = event;
+	}
+	
+	public String getEventName(){
+		return eventsname;
 	}
 	
 	public double getPrice(int eventid){
