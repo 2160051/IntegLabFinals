@@ -30,7 +30,7 @@ CREATE TABLE `customer` (
   `address` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
   PRIMARY KEY (`customerid`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` VALUES (4,'nicosan','nicosan','Nix','Baguio City','nico@gmail.com'),(5,'nekosan','nekosan','Naeko','Baguio City','neko@gmail.com');
+INSERT INTO `customer` VALUES (4,'nicosan','nicosan','Nix','Baguio City','nico@gmail.com'),(5,'nekosan','nekosan','Naeko','Baguio City','neko@gmail.com'),(6,'albie','albie','Albertha Domin','La Union','albie@gmail.com');
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -61,7 +61,7 @@ CREATE TABLE `event` (
   `price` double NOT NULL,
   `poster` longblob,
   PRIMARY KEY (`eventid`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,7 +70,7 @@ CREATE TABLE `event` (
 
 LOCK TABLES `event` WRITE;
 /*!40000 ALTER TABLE `event` DISABLE KEYS */;
-INSERT INTO `event` VALUES (1,'ICT Congress',400,4,'An event...','April 26, 2018','In-Progress',400,NULL),(2,'Paramore',600,0,'Rock all night with Paramore','May 29, 2018','In-Progress',800,NULL),(3,'Concert for a Cause',200,0,'Join and sing along while donating','June 11, 2018','In-Progress',450,NULL),(4,'Deadpool 2',320,0,'Name says it all...','May 16, 2018','In-Progress',220,NULL);
+INSERT INTO `event` VALUES (1,'ICT Congress',400,6,'An event...','April 26, 2018','In-Progress',400,NULL),(2,'Paramore',600,0,'Rock all night with Paramore','May 29, 2018','In-Progress',800,NULL),(3,'Concert for a Cause',200,0,'Join and sing along while donating','June 11, 2018','In-Progress',450,NULL),(4,'Deadpool 2',320,0,'Name says it all...','May 16, 2018','In-Progress',220,NULL),(5,'Green Day Concert',500,7,'Rock on with Green Day','August 19, 2018','In-Progress',800,NULL);
 /*!40000 ALTER TABLE `event` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -91,7 +91,7 @@ CREATE TABLE `event_customers` (
   KEY `eventid_idx` (`eventid`),
   CONSTRAINT `customid` FOREIGN KEY (`customerid`) REFERENCES `customer` (`customerid`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `eventid` FOREIGN KEY (`eventid`) REFERENCES `event` (`eventid`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -100,7 +100,7 @@ CREATE TABLE `event_customers` (
 
 LOCK TABLES `event_customers` WRITE;
 /*!40000 ALTER TABLE `event_customers` DISABLE KEYS */;
-INSERT INTO `event_customers` VALUES (1,4,1,'ICT Congress'),(3,5,1,'ICT Congress');
+INSERT INTO `event_customers` VALUES (1,4,1,'ICT Congress'),(3,5,1,'ICT Congress'),(4,4,5,'Green Day Concert'),(5,6,1,'ICT Congress'),(6,5,5,'Green Day Concert');
 /*!40000 ALTER TABLE `event_customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -147,7 +147,7 @@ CREATE TABLE `notification` (
   PRIMARY KEY (`notifid`),
   KEY `eventhandlerid_idx` (`eventhandlerid`),
   CONSTRAINT `eventhandlerid` FOREIGN KEY (`eventhandlerid`) REFERENCES `event_handler` (`eventhandlerid`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -156,7 +156,7 @@ CREATE TABLE `notification` (
 
 LOCK TABLES `notification` WRITE;
 /*!40000 ALTER TABLE `notification` DISABLE KEYS */;
-INSERT INTO `notification` VALUES (1,'You still have pending payment, pay up',1,1),(2,'Event Date may be moved due to  weather',1,1);
+INSERT INTO `notification` VALUES (1,'You still have pending payment, pay up',1,1),(2,'Event Date may be moved due to  weather',1,1),(5,'Date Changed',5,1);
 /*!40000 ALTER TABLE `notification` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -169,4 +169,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-21  3:45:10
+-- Dump completed on 2018-05-21  7:57:53

@@ -174,6 +174,9 @@ public class Login extends javax.swing.JFrame {
             	dispose();
             }else if(logInValue.equals("Event Handler")){
             	JOptionPane.showMessageDialog(null, "Welcome " + username);
+            	stub.setUser(username);
+            	new EventHandler().setVisible(true);
+            	dispose();
             }else if(logInValue.equals("null")){
             	JOptionPane.showMessageDialog(null, "Wrong username or password");
             }

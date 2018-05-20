@@ -280,7 +280,7 @@ public class Server implements Ticket{
 	
 	public void addEvent(String name, int totalTickets, String description, String eventDate, double price){
             try{
-		eventid += 1;
+				eventid += 1;
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ticketing_system?user=root&password=");
                 PreparedStatement psi; 
                 String stIns = "INSERT INTO event(eventname, totalTickets, soldTickets, description, eventDate, status, price) VALUES (?,?,?,?,?,?,?)";
@@ -299,9 +299,40 @@ public class Server implements Ticket{
 		}
 	}
 
-	/*public void setNotification(String notif){
+	public void setNotification(String message, String event){
+		try{
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ticketing_system?user=root&password=");
+            PreparedStatement psi; 
+            String stIns = "INSERT INTO notification(notifMessage, eventid, eventhandlerid) VALUES (?,?,?)";
+            psi = con.prepareStatement(stIns);
 
-	}*/
+            psi.setString(1, message);
+            int id = getEventByName(event);
+            psi.setInt(2, id);
+            psi.setInt(3, 1);
+            psi.executeUpdate();
+		}catch(Exception e){
+	    	e.printStackTrace();
+	    }
+	}
+	
+	public int getEventByName(String event){
+		try{
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ticketing_system?user=root&password=");
+            PreparedStatement psi; 
+            String stIns = "Select * FROM event where status = 'In-Progress' AND eventname = ? order by eventname";
+            psi = con.prepareStatement(stIns);
+            psi.setString(1, event);
+        	ResultSet rs = psi.executeQuery();
+        	
+        	rs.first();
+        	int id = rs.getInt(1);
+        	return id;
+		}catch(Exception e){
+	    	e.printStackTrace();
+	    }
+	    return 0;
+	}
 
 	public static void main(String[] args){
 		try{
