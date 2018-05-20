@@ -10,6 +10,7 @@ public class Server implements Ticket{
 	int eventid = 2;
 	String usersname;
 	String eventsname;
+	
 	public void registerCustomer(String name, String address, String email, String username, String password){
 		try{
         	Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ticketing_system?user=root&password=");
@@ -230,17 +231,21 @@ public class Server implements Ticket{
 		return 0;
 	}
         
-	public void returnTicket(String eventname){
+	public void returnTicket(String eventname, int quantity){
 		try{
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ticketing_system?user=root&password=");
-			Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-            ResultSet.CONCUR_UPDATABLE);
-        	ResultSet rs = stmt.executeQuery("Select * FROM event where status = 'In-Progress' order by eventname");
+			String crSel2 = "Select * FROM event where status = 'In-Progress' AND eventname = ? order by eventname";
+			PreparedStatement stmt = con.prepareStatement(crSel2);
+			stmt.setString(1, eventname);
+        	ResultSet rs = stmt.executeQuery();
+        	
+        	rs.first();
 	       	int soldTickets = rs.getInt("soldTickets");
-
+			
+			int returned = soldTickets - quantity;
 			PreparedStatement psu = 
          	con.prepareStatement("UPDATE event SET soldTickets = ?"+" WHERE eventname = ?");
-         	psu.setInt(1, soldTickets--);
+         	psu.setInt(1, returned);
          	psu.setString(2, eventname);
          	psu.executeUpdate();
 		}catch(Exception sqe){
@@ -248,9 +253,30 @@ public class Server implements Ticket{
 		}
 	}
 	
-	/*public String getNotification(String eventname){
-
-	}*/
+	public String getNotification(String username){
+		try{			
+            String conStr = "jdbc:mysql://localhost:3306/ticketing_system?user=root&password=";
+            Connection con = DriverManager.getConnection(conStr);
+            System.out.println("connection done");
+            
+            String stSel = "Select * from customer JOIN event_customers USING(customerid) JOIN notification USING(eventid) WHERE username = ?";
+        	PreparedStatement stmt = con.prepareStatement(stSel);
+        	stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            rs.beforeFirst();
+            String notif = "";
+            
+            while (rs.next()) {
+                String evntname = rs.getString(9);
+                String message = rs.getString(11);
+                notif += evntname+"-"+message+",";
+            }
+            return notif;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+			return "";
+	}
 	
 	public void addEvent(String name, int totalTickets, String description, String eventDate, double price){
             try{

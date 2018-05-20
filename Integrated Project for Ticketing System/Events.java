@@ -125,8 +125,8 @@ public class Events extends javax.swing.JFrame {
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
-                new Login().setVisible(true);
-                dispose();
+                new home().setVisible(true);
+        		dispose();
             }
         });
 
@@ -206,7 +206,6 @@ public class Events extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        this.hide();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

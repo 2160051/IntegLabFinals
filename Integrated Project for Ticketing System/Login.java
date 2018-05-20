@@ -170,7 +170,7 @@ public class Login extends javax.swing.JFrame {
                 //Redirect to Home Page
             	JOptionPane.showMessageDialog(null, "Welcome " + username);
             	stub.setUser(username);
-            	new Events().setVisible(true);
+            	new home().setVisible(true);
             	dispose();
             }else if(logInValue.equals("Event Handler")){
             	JOptionPane.showMessageDialog(null, "Welcome " + username);

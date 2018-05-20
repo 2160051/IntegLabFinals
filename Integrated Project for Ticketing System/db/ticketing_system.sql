@@ -70,7 +70,7 @@ CREATE TABLE `event` (
 
 LOCK TABLES `event` WRITE;
 /*!40000 ALTER TABLE `event` DISABLE KEYS */;
-INSERT INTO `event` VALUES (1,'ICT Congress',400,8,'An event...','April 26, 2018','In-Progress',400,NULL),(2,'Paramore',600,0,'Rock all night with Paramore','May 29, 2018','In-Progress',800,NULL),(3,'Concert for a Cause',200,0,'Join and sing along while donating','June 11, 2018','In-Progress',450,NULL),(4,'Deadpool 2',320,0,'Name says it all...','May 16, 2018','In-Progress',220,NULL);
+INSERT INTO `event` VALUES (1,'ICT Congress',400,4,'An event...','April 26, 2018','In-Progress',400,NULL),(2,'Paramore',600,0,'Rock all night with Paramore','May 29, 2018','In-Progress',800,NULL),(3,'Concert for a Cause',200,0,'Join and sing along while donating','June 11, 2018','In-Progress',450,NULL),(4,'Deadpool 2',320,0,'Name says it all...','May 16, 2018','In-Progress',220,NULL);
 /*!40000 ALTER TABLE `event` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -91,7 +91,7 @@ CREATE TABLE `event_customers` (
   KEY `eventid_idx` (`eventid`),
   CONSTRAINT `customid` FOREIGN KEY (`customerid`) REFERENCES `customer` (`customerid`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `eventid` FOREIGN KEY (`eventid`) REFERENCES `event` (`eventid`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -100,7 +100,7 @@ CREATE TABLE `event_customers` (
 
 LOCK TABLES `event_customers` WRITE;
 /*!40000 ALTER TABLE `event_customers` DISABLE KEYS */;
-INSERT INTO `event_customers` VALUES (1,4,1,'ICT Congress');
+INSERT INTO `event_customers` VALUES (1,4,1,'ICT Congress'),(3,5,1,'ICT Congress');
 /*!40000 ALTER TABLE `event_customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -147,7 +147,7 @@ CREATE TABLE `notification` (
   PRIMARY KEY (`notifid`),
   KEY `eventhandlerid_idx` (`eventhandlerid`),
   CONSTRAINT `eventhandlerid` FOREIGN KEY (`eventhandlerid`) REFERENCES `event_handler` (`eventhandlerid`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -156,6 +156,7 @@ CREATE TABLE `notification` (
 
 LOCK TABLES `notification` WRITE;
 /*!40000 ALTER TABLE `notification` DISABLE KEYS */;
+INSERT INTO `notification` VALUES (1,'You still have pending payment, pay up',1,1),(2,'Event Date may be moved due to  weather',1,1);
 /*!40000 ALTER TABLE `notification` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -168,4 +169,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-21  2:16:50
+-- Dump completed on 2018-05-21  3:45:10
